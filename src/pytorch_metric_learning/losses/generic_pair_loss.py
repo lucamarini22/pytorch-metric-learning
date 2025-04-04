@@ -42,8 +42,4 @@ class GenericPairLoss(BaseMetricLossFunction):
     
     @staticmethod
     def _assert_either_pos_or_neg(pos_mask, neg_mask):
-        pos_indices = set(pos_mask.flatten().nonzero().flatten().tolist())
-        neg_indices = set(neg_mask.flatten().nonzero().flatten().tolist())
-        assert (
-            pos_indices.isdisjoint(neg_indices)
-        ), "Each pair should be either be positive or negative"
+        assert not torch.any((pos_mask != 0) & (neg_mask != 0)), "Each pair should be either be positive or negative"
